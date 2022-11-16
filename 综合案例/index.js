@@ -1,0 +1,54 @@
+Vue.createApp({
+  template:"#my-app",
+  data(){
+    return{
+      books:[{
+        name:'java',
+        date:'2022-11-14',
+        price:'20',
+        count:1
+      },{
+        name:'java1',
+        date:'2022-11-14',
+        price:'20',
+        count:1
+      },{
+        name:'java2',
+        date:'2022-11-14',
+        price:'20',
+        count:1
+      },{
+        name:'java3',
+        date:'2022-11-14',
+        price:'20',
+        count:1
+      }],
+      test:'10'
+    }
+  },
+  methods:{
+    add(index){
+      this.books[index].count++
+    },
+    reduce(index){
+      this.books[index].count--
+    },
+    removeBook(index){
+      this.books.splice(index,1)
+    }
+  },
+  computed:{
+    totalPrice(){
+      let totalPrice = 0
+      this.books.forEach(item=>{
+        totalPrice+=item.count*item.price
+      })
+      return totalPrice
+    }
+  },
+  watch:{
+    test(val){
+      console.log(typeof val,val)
+    }
+  }
+}).mount("#app")
