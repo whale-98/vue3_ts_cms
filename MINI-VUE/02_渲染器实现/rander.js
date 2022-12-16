@@ -75,6 +75,44 @@ const patch = (n1, n2) => {
     }
     
     // 3.处理children
-    
+    const oldChildren = n1.children || []
+    const newChildren = n2.children || []
+
+    if(typeof newChildren === "string"){ // 情况一：newChildren
+      if(typeof oldChildren === "string"){
+        if(newChildren !== oldChildren){
+          el.textContent = newChildren
+        }
+      }else {
+        el.innerHTML = newChildren
+      }
+    }else { // 情况二：
+       if(typeof oldChildren === "string") {
+         el.innerHTML = ""
+         newChildren.forEach(item=>{
+           mount(item, el)
+         })
+       } else {
+         // 1.前面有相同节点的原生进行patch操作
+         const commonLength = Math.min(oldChildren.length, newChildren.length)
+         for (let i = 0; i < commonLength; i++) {
+           patch(oldChildren[i], newChildren[i])
+         }
+
+         // 2.newChildren > oldChildren
+         if(newChildren.length > oldChildren.length){
+            newChildren.slice(oldChildren.length).forEach(item=>{
+              mount(item,el)
+            })
+         }
+
+         // 3.newChildren < oldChildren
+         if(newChildren.length < oldChildren.length){
+           oldChildren.slice(newChildren.length).forEach(item=>{
+             el.removeChild(item.el)
+           })
+         }
+       }
+    }
   }
 }
