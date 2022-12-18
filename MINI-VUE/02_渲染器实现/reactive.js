@@ -40,8 +40,8 @@ watchEffect(function powerCounter(){
     console.log(info.counter * info.counter)
 })
 
-dep.addEffect(doubleCounter)
-dep.addEffect(powerCounter)
+// dep.addEffect(doubleCounter)
+// dep.addEffect(powerCounter)
 
 info.counter++
 dep.notify()

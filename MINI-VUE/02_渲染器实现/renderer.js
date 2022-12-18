@@ -50,7 +50,7 @@ const patch = (n1, n2) => {
     // 2.处理props
     const oldProps = n1.props || {}
     const newProps = n2.props || {}
-    // 2.1 获取所有的newProps
+    // 2.1 获取所有的newProps添加到el
     for (const key in newProps) {
       const oldValue = oldProps[key]
       const newValue = newProps[key]
@@ -64,13 +64,12 @@ const patch = (n1, n2) => {
     }
     // 2.2 删除旧的props
     for (const key in oldProps) {
+      if(key.startsWith('on')){ // 对事件监听的判断
+        const value = oldProps[key]
+        el.removeEventListener(key.slice(2).toLowerCase(),value)
+      }
       if(!(key in newProps)){
-        if(key.startsWith('on')){ // 对事件监听的判断
-          const value = oldProps[key]
-          el.removeEventListener(key.slice(2).toLowerCase(),value)
-        }else{
-          el.removeAttribute(key)
-        }
+        el.removeAttribute(key)
       }
     }
     
@@ -81,6 +80,8 @@ const patch = (n1, n2) => {
     if(typeof newChildren === "string"){ // 情况一：newChildren
       if(typeof oldChildren === "string"){
         if(newChildren !== oldChildren){
+          console.log(newChildren)
+          console.log(el)
           el.textContent = newChildren
         }
       }else {
