@@ -80,8 +80,6 @@ const patch = (n1, n2) => {
     if(typeof newChildren === "string"){ // 情况一：newChildren
       if(typeof oldChildren === "string"){
         if(newChildren !== oldChildren){
-          console.log(newChildren)
-          console.log(el)
           el.textContent = newChildren
         }
       }else {

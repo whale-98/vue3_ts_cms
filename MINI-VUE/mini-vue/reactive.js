@@ -89,30 +89,3 @@ function reactive(raw){
         }
     })
 }
-
-const proxy = reactive({name: "123"})
-proxy.name = "321 "
-
-//测试代码
-const info = reactive({counter: 100, name: 'why'})
-const foo = reactive({height: 1.88})
-
-watchEffect(function doubleCounter(){
-    console.log("effect1:", info.counter * 2, info.name)
-})
-
-watchEffect(function powerCounter(){
-    console.log("effect2:", info.counter * info.counter)
-})
-
-watchEffect(function powerCounter(){
-    console.log("effect3:", info.counter + 10, info.name)
-})
-
-watchEffect(function (){
-    console.log("effect4:", foo.height)
-})
-
-// info.counter++
-// info.name = "why1"
-foo.height = 121
