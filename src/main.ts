@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 
 import { globalRegister } from './global'
+import zjRequest from './service/index'
 
-import './service/axios_demo'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -16,3 +16,8 @@ app.use(globalRegister) // 组件注册
 app.use(router)
 app.use(store)
 app.mount('#app')
+
+zjRequest.request({
+  url: '/home/multidata',
+  method: 'GET'
+})
