@@ -19,5 +19,15 @@ app.mount('#app')
 
 zjRequest.request({
   url: '/home/multidata',
-  method: 'GET'
+  method: 'GET',
+  interceptors: {
+    requestInterceptor: (config) => {
+      console.log('单独请求的config')
+      return config
+    },
+    responseInterceptor: (config) => {
+      console.log('单独响应的config')
+      return config
+    }
+  }
 })
