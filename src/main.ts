@@ -17,6 +17,10 @@ app.use(router)
 app.use(store)
 app.mount('#app')
 
+// interface DataType {
+//   data: any
+// }
+
 zjRequest.request({
   url: '/home/multidata',
   method: 'GET',
@@ -29,5 +33,16 @@ zjRequest.request({
       console.log('单独响应的config')
       return config
     }
-  }
+  },
+  showLoading: true
 })
+
+zjRequest
+  .request({
+    url: '/home/multidata',
+    method: 'GET',
+    showLoading: false
+  })
+  .then((res) => {
+    console.log(res)
+  })
