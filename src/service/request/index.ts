@@ -33,7 +33,6 @@ class ZJRequest {
     this.instance.interceptors.request.use(
       (config) => {
         if (this.showLoading) {
-          console.log(1)
           this.loading = ElLoading.service({
             lock: true,
             text: '正在请求...',

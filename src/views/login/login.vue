@@ -1,13 +1,28 @@
 <template>
-  <div class="login">login</div>
+  <div class="login">
+    <LoginPanel></LoginPanel>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import LoginPanel from './cpns/login-panel.vue'
 
 export default defineComponent({
-  name: 'login'
+  name: 'login',
+  components: {
+    LoginPanel
+  }
 })
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  //background: url('~@/assets/img/background.jpg');
+}
+</style>
