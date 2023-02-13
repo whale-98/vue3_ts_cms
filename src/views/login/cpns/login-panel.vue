@@ -9,7 +9,7 @@
             <span>账号登录</span>
           </span>
         </template>
-        <login-account></login-account>
+        <login-account ref="accountRef"></login-account>
       </el-tab-pane>
       <el-tab-pane>
         <template #label>
@@ -18,7 +18,7 @@
             <span>手机登录</span>
           </span>
         </template>
-        <login-phone></login-phone>
+        <login-phone ref="phoneRef"></login-phone>
       </el-tab-pane>
     </el-tabs>
 
@@ -27,7 +27,7 @@
       <el-link>忘记密码</el-link>
     </div>
 
-    <el-button type="primary" class="login-button">立即登录</el-button>
+    <el-button type="primary" class="login-button" @click="handleLoginClick">立即登录</el-button>
   </div>
 </template>
 
@@ -39,9 +39,19 @@ import LoginPhone from './login-phone.vue'
 export default defineComponent({
   components: { LoginAccount, LoginPhone },
   setup() {
-    const isKeepPassword = ref(false)
+    const isKeepPassword = ref(true)
+    const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref()
+
+    const handleLoginClick = () => {
+      console.log('立即登录')
+      accountRef.value?.loginAction(isKeepPassword.value)
+    }
     return {
-      isKeepPassword
+      isKeepPassword,
+      handleLoginClick,
+      accountRef,
+      phoneRef
     }
   }
 })
