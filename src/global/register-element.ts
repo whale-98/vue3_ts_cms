@@ -4,37 +4,41 @@ import type { App } from 'vue'
 import {
   ElButton,
   ElTable,
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
   ElTabs,
   ElTabPane,
   ElForm,
   ElFormItem,
   ElInput,
   ElCheckbox,
-  ElLink
+  ElLink,
+  ElContainer,
+  ElHeader,
+  ElMain,
+  ElAside,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem,
+  ElMenuItemGroup
 } from 'element-plus'
 
 const components = [
   ElButton,
   ElTable,
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
   ElTabs,
   ElTabPane,
   ElForm,
   ElFormItem,
   ElInput,
   ElCheckbox,
-  ElLink
+  ElLink,
+  ElContainer,
+  ElHeader,
+  ElMain,
+  ElAside,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem,
+  ElMenuItemGroup
 ]
 
 export default function (app: App): void {

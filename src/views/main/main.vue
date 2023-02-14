@@ -1,13 +1,49 @@
 <template>
-  <div class="main">main</div>
+  <div class="main">
+    <el-container class="main-content">
+      <el-aside :width="'210px'">
+        <NavMenu></NavMenu>
+      </el-aside>
+      <el-container class="page">
+        <el-header class="page-header">Header</el-header>
+        <el-main class="page-content">Main</el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import NavMenu from '@/components/nav-menu'
 
 export default defineComponent({
+  components: {
+    NavMenu
+  },
   name: 'main'
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.main-content,
+.page {
+  height: 100%;
+}
+
+.page-content {
+  height: calc(100% - 48px);
+
+  .content {
+    background-color: #fff;
+    border-radius: 8px;
+  }
+}
+</style>
