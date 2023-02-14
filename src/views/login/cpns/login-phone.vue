@@ -23,6 +23,7 @@ export default defineComponent({
       num: '',
       code: ''
     })
+
     return {
       phone,
       rules

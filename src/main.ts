@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 
 import { globalRegister } from './global'
 import zjRequest from './service/index'
+import { setupStore } from './store/index'
 
 import App from './App.vue'
 import router from './router'
@@ -23,33 +24,6 @@ for (const i in Icons) {
 app.use(globalRegister) // 组件注册
 app.use(router)
 app.use(store)
+setupStore()
+
 app.mount('#app')
-
-// interface DataType {
-//   data: any
-// }
-
-zjRequest.request({
-  url: '/home/multidata',
-  method: 'GET',
-  interceptors: {
-    requestInterceptor: (config) => {
-      console.log('单独请求的config')
-      return config
-    },
-    responseInterceptor: (config) => {
-      console.log('单独响应的config')
-      return config
-    }
-  }
-})
-
-zjRequest
-  .request({
-    url: '/home/multidata',
-    method: 'GET',
-    showLoading: false
-  })
-  .then((res) => {
-    console.log(res)
-  })
