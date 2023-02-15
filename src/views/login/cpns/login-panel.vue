@@ -5,7 +5,7 @@
       <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label">
-            <UserFilled :style="{ width: '20px', height: '20px', verticalAlign: 'text-bottom' }" />
+            <el-icon :size="20" style="vertical-align: text-bottom"><UserFilled /></el-icon>
             <span>账号登录</span>
           </span>
         </template>
@@ -14,7 +14,7 @@
       <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label">
-            <Cellphone :style="{ width: '20px', height: '20px', verticalAlign: 'text-bottom' }" />
+            <el-icon :size="20" style="vertical-align: text-bottom"><Cellphone /></el-icon>
             <span>手机登录</span>
           </span>
         </template>
