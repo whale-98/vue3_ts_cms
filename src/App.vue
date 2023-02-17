@@ -1,14 +1,21 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <el-config-provider :locale="locale">
+      <router-view></router-view>
+    </el-config-provider>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn' // element中文化
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  setup() {
+    const locale = ref(zhCn)
+    return { locale }
+  }
 })
 </script>
 

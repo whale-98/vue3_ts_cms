@@ -20,7 +20,7 @@
               <span>{{ item.name }}</span>
             </template>
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item :index="subItem.id + ''">
+              <el-menu-item :index="subItem.id + ''" @click="handleMenuItemClick(subItem)">
                 <span>{{ subItem.name }}</span>
               </el-menu-item>
             </template>
@@ -28,7 +28,7 @@
         </template>
         <!--一级菜单-->
         <template v-else-if="item.type === 2">
-          <el-menu-item :index="item.id + ''">
+          <el-menu-item :index="item.id + ''" @click="handleMenuItemClick(item)">
             <span>{{ item.name }}</span>
           </el-menu-item>
         </template>
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
 
 export default defineComponent({
@@ -51,8 +52,16 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
+
+    const router = useRouter()
+    const handleMenuItemClick = (item: any) => {
+      router.push({
+        path: item.url ?? '/not-found'
+      })
+    }
     return {
-      userMenus
+      userMenus,
+      handleMenuItemClick
     }
   }
 })

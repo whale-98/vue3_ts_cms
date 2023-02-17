@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 
 import { globalRegister } from './global'
-import zjRequest from './service/index'
 import { setupStore } from './store/index'
 
 import App from './App.vue'

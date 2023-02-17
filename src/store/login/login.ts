@@ -30,7 +30,10 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
-      mapMenusToRoutes(userMenus)
+      const routes = mapMenusToRoutes(userMenus)
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {
@@ -45,7 +48,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       const userInfoResult = await requestUserInfoById(id)
       const userInfo = userInfoResult.data
       commit('changeUserInfo', userInfo)
-      localCache.setCache('changeUserInfo', userInfo)
+      localCache.setCache('userInfo', userInfo)
 
       // 3.获取菜单
       const userMenusResult = await requestUserMenusByRoleId(userInfo.role.id)

@@ -1,16 +1,20 @@
 <template>
   <div class="user">
-    <h2>user</h2>
+    <zj-form v-bind="searchFormConfig"></zj-form>
+    <div class="content"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import ZjForm from '@/base-ui/form'
+import { searchFormConfig } from './config/search.config'
 
 export default defineComponent({
   name: 'user',
+  components: { ZjForm },
   setup() {
-    return {}
+    return { searchFormConfig }
   }
 })
 </script>
