@@ -20,9 +20,9 @@ for (const i in Icons) {
 }
 
 // globalRegister(app)
+setupStore()
 app.use(globalRegister) // 组件注册
 app.use(router)
 app.use(store)
-setupStore()
 
 app.mount('#app')

@@ -4,6 +4,7 @@ import type { App } from 'vue'
 import {
   ElButton,
   ElTable,
+  ElTableColumn,
   ElTabs,
   ElTabPane,
   ElForm,
@@ -29,12 +30,15 @@ import {
   ElSelect,
   ElOption,
   ElDatePicker,
-  ElConfigProvider
+  ElConfigProvider,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 } from 'element-plus'
 
 const components = [
   ElButton,
   ElTable,
+  ElTableColumn,
   ElTabs,
   ElTabPane,
   ElForm,
@@ -60,7 +64,9 @@ const components = [
   ElSelect,
   ElOption,
   ElDatePicker,
-  ElConfigProvider
+  ElConfigProvider,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 ]
 
 export default function (app: App): void {

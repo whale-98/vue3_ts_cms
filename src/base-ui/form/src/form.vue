@@ -1,5 +1,8 @@
 <template>
   <div class="zj-form">
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -11,6 +14,7 @@
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                 ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">
@@ -18,6 +22,7 @@
                   :rules="item.rules"
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
+                  v-model="formData[`${item.field}`]"
                   style="width: 100%"
                 >
                   <el-option
@@ -33,6 +38,7 @@
                 <el-date-picker
                   :rules="item.rules"
                   v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
                   style="width: 100%"
                 ></el-date-picker>
               </template>
@@ -41,14 +47,21 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from '../types'
 export default defineComponent({
   props: {
+    modelValue: {
+      type: Object,
+      require: true
+    },
     formItems: {
       type: Array as PropType<IFormItem[]>,
       default: () => []
@@ -74,8 +87,11 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {}
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const formData = ref({ ...props.modelValue })
+    watch(formData, (newValue) => emit('update:modelValue', newValue), { deep: true })
+    return { formData }
   }
 })
 </script>

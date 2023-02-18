@@ -5,18 +5,23 @@
       <Fold v-else />
     </el-icon>
     <div class="content">
-      <div>面包屑</div>
+      <zj-breadcrumb :breadcrumbs="breadcrumbs"></zj-breadcrumb>
       <UserInfo></UserInfo>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import UserInfo from './user-info.vue'
+import ZjBreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb'
+
+import { useStore } from '@/store'
+import { useRoute } from 'vue-router'
+import { pathMapBreadcrumbs } from '@/utils/map-menus'
 
 export default defineComponent({
-  components: { UserInfo },
+  components: { UserInfo, ZjBreadcrumb },
   emits: ['foldChange'],
   setup(props, { emit }) {
     const isFold = ref(false)
@@ -24,7 +29,16 @@ export default defineComponent({
       isFold.value = !isFold.value
       emit('foldChange', isFold.value)
     }
-    return { isFold, handleFoldClick }
+
+    // 面包屑数据
+    const store = useStore()
+    const route = useRoute()
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const currentPath = route.path
+      return pathMapBreadcrumbs(userMenus, currentPath)
+    })
+    return { isFold, handleFoldClick, breadcrumbs }
   }
 })
 </script>

@@ -26,7 +26,6 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const name = computed(() => store.state.login.userInfo.name)
-    console.log(name, 'name')
     return {
       name
     }
