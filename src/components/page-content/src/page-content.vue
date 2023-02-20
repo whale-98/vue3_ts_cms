@@ -1,6 +1,6 @@
 <template>
   <div class="page-content">
-    <zj-table :listData="dataList" v-bind="contentTableConfig" @selectionChange="selectionChange">
+    <zj-table :listData="dataList" v-bind="contentTableConfig">
       <!--1.header中的插槽-->
       <template #headerHandler>
         <el-button type="primary" icon="plus">新建用户</el-button>

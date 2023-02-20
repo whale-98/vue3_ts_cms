@@ -6,8 +6,8 @@
       </template>
       <template #footer>
         <div class="handle-btns">
-          <el-button type="primary">重置</el-button>
-          <el-button type="primary">搜索</el-button>
+          <el-button icon="refresh" @click="handleResetClick">重置</el-button>
+          <el-button icon="search" type="primary">搜索</el-button>
         </div>
       </template>
     </zj-form>
@@ -25,15 +25,19 @@ export default defineComponent({
     }
   },
   components: { ZjForm },
-  setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
-    })
-    return { formData }
+  setup(props) {
+    const formItems = props.searchFormConfig?.formItems ?? []
+    const formOriginData: any = {}
+    for (const item of formItems) {
+      formOriginData[item.field] = ''
+    }
+
+    const formData = ref(formOriginData)
+
+    const handleResetClick = () => {
+      formData.value = formOriginData
+    }
+    return { formData, handleResetClick }
   }
 })
 </script>
