@@ -26,6 +26,7 @@ export default defineComponent({
   },
   components: { ZjForm },
   setup(props) {
+    // 1.优化一： formData中的属性应该动态来决定
     const formItems = props.searchFormConfig?.formItems ?? []
     const formOriginData: any = {}
     for (const item of formItems) {
@@ -35,6 +36,8 @@ export default defineComponent({
     const formData = ref(formOriginData)
 
     const handleResetClick = () => {
+      // formData.value = formOriginData
+      console.log(JSON.parse(JSON.stringify(formOriginData)))
       formData.value = formOriginData
     }
     return { formData, handleResetClick }
