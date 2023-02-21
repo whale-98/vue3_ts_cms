@@ -14,13 +14,11 @@ const app = createApp(App)
 
 // 通过遍历的方式注册所有 svg组件，会牺牲一点点性能
 for (const i in Icons) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  app.component(i, Icons[i])
+  app.component(i, Icons[i as keyof typeof Icons])
 }
 
 // globalRegister(app)
-setupStore()
+await setupStore()
 app.use(globalRegister) // 组件注册
 app.use(router)
 app.use(store)

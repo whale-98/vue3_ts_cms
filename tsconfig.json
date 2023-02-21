@@ -22,7 +22,7 @@
     // 文件路径解析时 基本url
     "baseUrl": ".",
     // 指定要解析使用的类型
-    "types": ["webpack-env"],
+    "types": ["vite/client"],
     // 路径解析
     "paths": {
       "@/*": ["src/*"]

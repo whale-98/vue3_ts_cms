@@ -10,6 +10,7 @@ import {
 import { mapMenusToRoutes } from '@/utils/map-menus'
 import localCache from '@/utils/cache'
 import router from '@/router'
+import { RouteRecordRaw } from 'vue-router'
 
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -28,10 +29,10 @@ const loginModule: Module<ILoginState, IRootState> = {
     changeUserInfo(state, userInfo: any) {
       state.userInfo = userInfo
     },
-    changeUserMenus(state, userMenus: any) {
-      state.userMenus = userMenus
-      const routes = mapMenusToRoutes(userMenus)
-      routes.forEach((route) => {
+    changeUserMenus(state, userMenusInfo: any) {
+      state.userMenus = userMenusInfo.userMenus
+      // const routes = mapMenusToRoutes(userMenus)
+      userMenusInfo.routes.forEach((route: RouteRecordRaw) => {
         router.addRoute('main', route)
       })
     }
@@ -53,7 +54,8 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 3.获取菜单
       const userMenusResult = await requestUserMenusByRoleId(userInfo.role.id)
       const userMenus = userMenusResult.data
-      commit('changeUserMenus', userMenus)
+      const routes = await mapMenusToRoutes(userMenus)
+      commit('changeUserMenus', { userMenus, routes })
       localCache.setCache('userMenus', userMenus)
 
       // 4.跳转首页
@@ -62,7 +64,7 @@ const loginModule: Module<ILoginState, IRootState> = {
     phoneLoginAction({ commit }, payload: any) {
       console.log('phoneLoginAction')
     },
-    loadLocalLogin({ commit }) {
+    async loadLocalLogin({ commit }) {
       const token = localCache.getCache('token')
       if (token) {
         commit('changeToken', token)
@@ -73,7 +75,8 @@ const loginModule: Module<ILoginState, IRootState> = {
       }
       const userMenus = localCache.getCache('userMenus')
       if (userMenus) {
-        commit('changeUserMenus', userMenus)
+        const routes = await mapMenusToRoutes(userMenus)
+        commit('changeUserMenus', { userMenus, routes })
       }
     }
   }

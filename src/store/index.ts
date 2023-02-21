@@ -21,8 +21,8 @@ const store = createStore<IRootState>({
   }
 })
 
-export function setupStore() {
-  store.dispatch('login/loadLocalLogin')
+export async function setupStore() {
+  await store.dispatch('login/loadLocalLogin')
 }
 
 export function useStore(): Store<IStoreType> {
