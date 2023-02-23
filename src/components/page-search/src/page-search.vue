@@ -7,7 +7,7 @@
       <template #footer>
         <div class="handle-btns">
           <el-button icon="refresh" @click="handleResetClick">重置</el-button>
-          <el-button icon="search" type="primary">搜索</el-button>
+          <el-button icon="search" type="primary" @click="handleQueryClick">搜索</el-button>
         </div>
       </template>
     </zj-form>
@@ -25,7 +25,8 @@ export default defineComponent({
     }
   },
   components: { ZjForm },
-  setup(props) {
+  emit: ['resetBtnClick', 'queryBtnClick'],
+  setup(props, { emit }) {
     // 1.优化一： formData中的属性应该动态来决定
     const formItems = props.searchFormConfig?.formItems ?? []
     const formOriginData: any = {}
@@ -35,12 +36,17 @@ export default defineComponent({
 
     const formData = ref(formOriginData)
 
+    // 2.优化二：用户点击重置
     const handleResetClick = () => {
-      // formData.value = formOriginData
-      console.log(JSON.parse(JSON.stringify(formOriginData)))
       formData.value = formOriginData
+      emit('resetBtnClick')
     }
-    return { formData, handleResetClick }
+
+    // 优化三：点击搜索
+    const handleQueryClick = () => {
+      emit('queryBtnClick', formData.value)
+    }
+    return { formData, handleResetClick, handleQueryClick }
   }
 })
 </script>

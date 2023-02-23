@@ -1,6 +1,11 @@
 <template>
   <div class="page-content">
-    <zj-table :listData="dataList" v-bind="contentTableConfig">
+    <zj-table
+      :listData="dataList"
+      :listCount="dataCount"
+      v-bind="contentTableConfig"
+      v-model:page="pageInfo"
+    >
       <!--1.header中的插槽-->
       <template #headerHandler>
         <el-button type="primary" icon="plus">新建用户</el-button>
@@ -30,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import ZjTable from '@/base-ui/table'
 import { useStore } from '@/store'
 export default defineComponent({
@@ -47,16 +52,28 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
+
+    // 双向绑定pageInfo
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
+    watch(pageInfo, () => getPageData(), { deep: true })
+
+    // 发送网络请求
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: pageInfo.value.currentPage,
+          size: pageInfo.value.pageSize,
+          ...queryInfo
+        }
+      })
+    }
+    getPageData()
+
+    // vuex获取数据
     const dataList = computed(() => store.getters[`system/pageListData`](props.pageName))
-    // const userCount = computed(() => store.state.system.userCount)
-    return { dataList }
+    const dataCount = computed(() => store.getters[`system/pageListCount`](props.pageName))
+    return { dataList, dataCount, getPageData, pageInfo }
   }
 })
 </script>
