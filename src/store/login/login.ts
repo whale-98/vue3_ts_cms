@@ -7,7 +7,7 @@ import {
   requestUserInfoById,
   requestUserMenusByRoleId
 } from '@/service/login/login'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menus'
 import localCache from '@/utils/cache'
 import router from '@/router'
 import { RouteRecordRaw } from 'vue-router'
@@ -18,7 +18,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: ''
+      userMenus: '',
+      permission: []
     }
   },
   getters: {},
@@ -35,6 +36,10 @@ const loginModule: Module<ILoginState, IRootState> = {
       userMenusInfo.routes.forEach((route: RouteRecordRaw) => {
         router.addRoute('main', route)
       })
+
+      // 获取用户按钮的权限
+      const permission = mapMenusToPermissions(userMenusInfo.userMenus)
+      state.permission = permission
     }
   },
   actions: {

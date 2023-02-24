@@ -6,7 +6,13 @@
         <slot name="headerHandler"></slot>
       </div>
     </div>
-    <el-table :data="listData" border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table
+      :data="listData"
+      border
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
+    >
       <el-table-column
         v-if="showSelectColumn"
         align="center"
@@ -21,7 +27,7 @@
         label="序号"
       ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column align="center" v-bind="propItem" min-width="180">
+        <el-table-column align="center" v-bind="propItem" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
@@ -30,14 +36,16 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
-      <el-pagination
-        v-model:current-page="page.currentPage"
-        v-model:page-size="page.pageSize"
-        :page-sizes="[10, 20, 30, 40]"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="listCount"
-      />
+    <div class="footer" v-if="showFooter">
+      <slot name="footer">
+        <el-pagination
+          v-model:current-page="page.currentPage"
+          v-model:page-size="page.pageSize"
+          :page-sizes="[10, 20, 30, 40]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="listCount"
+        />
+      </slot>
     </div>
   </div>
 </template>
@@ -73,6 +81,14 @@ export default defineComponent({
     page: {
       type: Object,
       default: () => ({ currentPage: 1, pageSize: 10 })
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['selectionChange'],

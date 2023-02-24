@@ -105,7 +105,6 @@ export default defineComponent({
     watch(formData, (newValue) => emit('update:modelValue', newValue), { deep: true })*/
 
     const handleValueChange = (value: any, field: string) => {
-      console.log(field, value)
       emit('update:modelValue', { ...props.modelValue, [field]: value })
     }
 

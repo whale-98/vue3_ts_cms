@@ -8,7 +8,7 @@
     >
       <!--1.header中的插槽-->
       <template #headerHandler>
-        <el-button type="primary" icon="plus">新建用户</el-button>
+        <el-button v-if="isCreate" type="primary" icon="plus">新建用户</el-button>
       </template>
       <!--2.列中的插槽-->
       <template #enable="scope">
@@ -24,9 +24,15 @@
       </template>
       <template #handler>
         <div class="handle-btns">
-          <el-button icon="Edit" type="primary" size="small" link>编辑</el-button>
-          <el-button icon="Delete" type="primary" size="small" link>删除</el-button>
+          <el-button v-if="isUpdate" icon="Edit" type="primary" size="small" link>编辑</el-button>
+          <el-button v-if="isDelete" icon="Delete" type="primary" size="small" link>删除</el-button>
         </div>
+      </template>
+
+      <!--动态插槽-->
+      <template v-for="item in otherPropSlots" :key="item.prop" #[item.slotName]="scope">
+        <template v-if="item.slotName"></template>
+        <slot :name="item.slotName" :row="scope.row"></slot>
       </template>
       <!--3.footer中的插槽-->
       <template></template>
@@ -38,6 +44,7 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import ZjTable from '@/base-ui/table'
 import { useStore } from '@/store'
+import { usePermission } from '@/hooks/use-permission'
 export default defineComponent({
   components: { ZjTable },
   props: {
@@ -52,6 +59,11 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
+    // 获取操作权限
+    const isCreate = usePermission(props.pageName, 'create')
+    const isUpdate = usePermission(props.pageName, 'update')
+    const isDelete = usePermission(props.pageName, 'delete')
+    const isQuery = usePermission(props.pageName, 'query')
 
     // 双向绑定pageInfo
     const pageInfo = ref({ currentPage: 1, pageSize: 10 })
@@ -59,6 +71,7 @@ export default defineComponent({
 
     // 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
+      if (!isQuery) return
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -73,7 +86,23 @@ export default defineComponent({
     // vuex获取数据
     const dataList = computed(() => store.getters[`system/pageListData`](props.pageName))
     const dataCount = computed(() => store.getters[`system/pageListCount`](props.pageName))
-    return { dataList, dataCount, getPageData, pageInfo }
+
+    // 获取其他的动态插槽名称
+    const otherPropSlots = props.contentTableConfig?.propList.filter((item: any) => {
+      if (['status', 'createAt', 'updateAt', 'handler'].includes(item.slotName)) return false
+      return true
+    })
+
+    return {
+      dataList,
+      dataCount,
+      getPageData,
+      pageInfo,
+      otherPropSlots,
+      isCreate,
+      isUpdate,
+      isDelete
+    }
   }
 })
 </script>

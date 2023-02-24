@@ -33,7 +33,8 @@ import {
   ElConfigProvider,
   ElBreadcrumb,
   ElBreadcrumbItem,
-  ElPagination
+  ElPagination,
+  ElImage
 } from 'element-plus'
 
 const components = [
@@ -68,7 +69,8 @@ const components = [
   ElConfigProvider,
   ElBreadcrumb,
   ElBreadcrumbItem,
-  ElPagination
+  ElPagination,
+  ElImage
 ]
 
 export default function (app: App): void {
